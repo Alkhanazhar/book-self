@@ -5,6 +5,8 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import { useContext } from "react";
 import { Auth } from "./context/AuthContext";
+import ContactUs from "./pages/Contactus";
+import AboutUs from "./pages/About";
 // import Login from "./pages/Login";
 
 const App = () => {
@@ -12,6 +14,8 @@ const App = () => {
   return (
     <Routes>
       <Route element={<Home />} path={"/"} />
+      <Route element={<ContactUs />} path={"/contact"} />
+      <Route element={<AboutUs />} path={"/about"} />
       <Route
         element={user ? <CoursesPage /> : <Navigate to={"/signup"} />}
         path={"/courses"}

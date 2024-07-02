@@ -9,7 +9,7 @@ const Card = ({ item }) => {
         <div className="card-body">
           <h2 className="card-title text-xl line-clamp-1 mb-2 font-medium">
             {item.name}
-            <div className="badge badge-secondary line-clamp-1">
+            <div className="badge badge-secondary line-clamp-1 flex items-center">
               {item.category}
             </div>
           </h2>
