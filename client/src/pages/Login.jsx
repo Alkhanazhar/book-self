@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const {
@@ -8,7 +10,19 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post("/login", data);
+      if (res.data) {
+        localStorage.setItem("Users", JSON.stringify(res.data.data));
+        toast.success(res.data.message);
+        window.location.reload();
+      }
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  };
   return (
     <>
       <Header />
@@ -59,7 +73,7 @@ const Login = () => {
                 <input
                   type="password"
                   className="grow"
-                  value="password"
+                  placeholder="*******"
                   {...register("password", { required: true })}
                 />
                 {errors.email && (

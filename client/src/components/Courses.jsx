@@ -1,9 +1,13 @@
 import { MoveLeft } from "lucide-react";
-import { books } from "../../public/books";
-import Card from "./Card";
 import { Link } from "react-router-dom";
+import shimmerData from "../../public/books.json";
+import { useBooks } from "../hooks/usebooks";
+import Card from "./Card";
+import Shimmer from "./Shimmer";
 
 const Courses = () => {
+  const { books, loading } = useBooks();
+
   return (
     <div className="max-w-screen-2xl mx-auto container px-4 md:px-10 my-28">
       <div className="space-y-4">
@@ -25,11 +29,20 @@ const Courses = () => {
           </Link>
         </div>
       </div>
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-3">
-        {books.map((book) => {
-          return <Card key={book._id} item={book} />;
-        })}
-      </div>
+      {loading ? (
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-3">
+          {shimmerData.map((book) => {
+            return <Shimmer key={book?.name} item={book} />;
+          })}
+        </div>
+      ) : (
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-3">
+          {books?.data?.length > 0 &&
+            books?.data?.map((book) => {
+              return <Card key={book?.name} item={book} />;
+            })}
+        </div>
+      )}
     </div>
   );
 };

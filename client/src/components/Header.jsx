@@ -1,8 +1,19 @@
 import { Menu } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Auth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 const Header = () => {
+  const [user] = useContext(Auth);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.setItem("Users", null);
+
+    navigate("/login");
+    toast.success("User logged out");
+    window.location.reload();
+  };
   const [sticky, setSticky] = useState(false);
   useEffect(() => {
     function handleScroll() {
@@ -15,6 +26,7 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   const navItems = (
     <>
       <li>
@@ -50,12 +62,14 @@ const Header = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content  rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content  rounded-box z-[1] mt-3 w-52 p-2 shadow bg-slate-950"
             >
               {navItems}
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">bookstore</a>
+          <Link to={"/"} className="btn btn-ghost text-xl">
+            bookstore
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 font-medium flex items-center">
@@ -63,12 +77,12 @@ const Header = () => {
           </ul>
         </div>
         <div className="navbar-end space-x-3 items-center">
-          <div>
+          <div className=" hidden md:flex">
             <label className="input input-bordered flex items-center gap-2 outline-none  ">
               <input
                 type="text"
                 className="grow outline-none w-32"
-                placeholder="Search "
+                placeholder="Search"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -84,10 +98,18 @@ const Header = () => {
               </svg>
             </label>
           </div>
-
-          <button type="button" className="dark-btn">
-            <Link to={"/login"}>Login</Link>
-          </button>
+          {user ? (
+            <button
+              className="btn bg-pink-500 hover:bg-pink-600 duration-150 text-white"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          ) : (
+            <button type="button" className="dark-btn">
+              <Link to={"/login"}>Login</Link>
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ const Card = ({ item }) => {
           <img src={item.image} alt={item.name} />
         </figure>
         <div className="card-body">
-          <h2 className="card-title text-2xl line-clamp-1">
+          <h2 className="card-title text-xl line-clamp-1 mb-2 font-medium">
             {item.name}
             <div className="badge badge-secondary line-clamp-1">
               {item.category}
@@ -29,4 +29,3 @@ const Card = ({ item }) => {
 };
 
 export default Card;
-

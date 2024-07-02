@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const {
@@ -8,7 +10,17 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post("/signup", data);
+      if (res.data) {
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  };
   return (
     <>
       <Header />
@@ -82,6 +94,7 @@ const Signup = () => {
                 <input
                   type="password"
                   className="grow"
+                  placeholder="*******"
                   {...register("password", { required: true })}
                 />
                 {errors.password && (
