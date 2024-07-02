@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 import AuthProvider from "./context/AuthContext.jsx";
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = "https://book-self.onrender.com";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
